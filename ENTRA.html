@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Entra Company | Yazılım Geleceğiniz</title>
+    <style>
+        /* Ana Stiller */
+        :root {
+            --primary: #0066cc;
+            --primary-dark: #004c99;
+            --secondary: #00ccff;
+            --dark: #1a1a2e;
+            --light: #f8f9fa;
+            --accent: #ff6b6b;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--light);
+            color: #333;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Navbar */
+        nav {
+            background-color: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+        
+        nav.scrolled {
+            background-color: rgba(26, 26, 46, 0.95);
+        }
+        
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo img {
+            height: 40px;
+            margin-right: 10px;
+        }
+        
+        .logo h1 {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary);
+            transition: color 0.3s ease;
+        }
+        
+        nav.scrolled .logo h1 {
+            color: white;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 30px;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+        
+        nav.scrolled .nav-links a {
+            color: #fff;
+        }
+        
+        .nav-links a:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: var(--secondary);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-links a:hover:after {
+            width: 100%;
+        }
+        
+        .menu-toggle {
+            display: none;
+            cursor: pointer;
+        }
+        
+        /* Header */
+        header {
+            height: 100vh;
+            background: linear-gradient(45deg, var(--primary-dark), var(--primary));
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        header::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: url('/api/placeholder/1200/800') center/cover no-repeat;
+            opacity: 0.1;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            color: white;
+            text-align: center;
+            padding: 0 20px;
+        }
+        
+        .hero-content h2 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            animation: fadeInDown 1s ease;
+        }
+        
+        .hero-content p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto 30px;
+            line-height: 1.6;
+            animation: fadeInUp 1s ease 0.3s forwards;
+            opacity: 0;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background-color: var(--secondary);
+            color: white;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0, 204, 255, 0.3);
+            animation: fadeInUp 1s ease 0.6s forwards;
+            opacity: 0;
+        }
+        
+        .btn:hover {
+            background-color: #00b8e6;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 204, 255, 0.4);
+        }
+        
+        /* Animasyonlar */
+        .fire {
+            position: absolute;
+            bottom: -150px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 300px;
+            height: 300px;
+            background: url('/api/placeholder/300/300') center/contain no-repeat;
+            filter: hue-rotate(190deg) brightness(1.5);
+            animation: flicker 3s infinite alternate;
+        }
+        
+        /* Hakkımızda */
+        #hakkimizda {
+            padding: 100px 0;
+            background-color: white;
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 50px;
+            position: relative;
+        }
+        
+        .section-title:after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background-color: var(--secondary);
+        }
+        
+        .about-content {
+            display: flex;
+            align-items: center;
+            gap: 50px;
+        }
+        
+        .about-image {
+            flex: 1;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .about-image img {
+            width: 100%;
+            height: auto;
+            transition: transform 0.5s ease;
+        }
+        
+        .about-image:hover img {
+            transform: scale(1.05);
+        }
+        
+        .about-text {
+            flex: 1;
+        }
+        
+        .about-text h3 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: var(--dark);
+        }
+        
+        .about-text p {
+            line-height: 1.8;
+            margin-bottom: 20px;
+            color: #555;
+        }
+        
+        /* Hizmetler */
+        #hizmetler {
+            padding: 100px 0;
+            background-color: #f8f9fa;
+        }
+        
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .service-card {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .service-icon {
+            height: 150px;
+            background-color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 50px;
+            color: white;
+        }
+        
+        .service-content {
+            padding: 25px;
+        }
+        
+        .service-content h3 {
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            color: var(--dark);
+        }
+        
+        .service-content p {
+            color: #666;
+            line-height: 1.6;
+        }
+        
+        /* Takım */
+        #takim {
+            padding: 100px 0;
+            background-color: white;
+        }
+        
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 30px;
+        }
+        
+        .team-member {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .team-member:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .member-image {
+            height: 250px;
+            background-color: #eee;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .member-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .team-member:hover .member-image img {
+            transform: scale(1.1);
+        }
+        
+        .member-info {
+            padding: 20px;
+        }
+        
+        .member-info h3 {
+            font-size: 1.3rem;
+            margin-bottom: 5px;
+            color: var(--primary);
+        }
+        
+        .member-info p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            margin-top: 15px;
+        }
+        
+        .social-links a {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background-color: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 5px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+        
+        .social-links a:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-3px);
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 50px 0 20px;
+        }
+        
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-column {
+            flex: 1;
+            min-width: 200px;
+        }
+        
+        .footer-column h3 {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            color: var(--secondary);
+            position: relative;
+        }
+        
+        .footer-column h3:after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background-color: var(--secondary);
+        }
+        
+        .footer-column p {
+            margin-bottom: 15px;
+            color: #bbb;
+            line-height: 1.6;
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-links a {
+            color: #bbb;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-links a:hover {
+            color: var(--secondary);
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .footer-bottom p {
+            color: #888;
+            font-size: 0.9rem;
+        }
+        
+        /* Animasyonlar */
+        @keyframes fadeInDown {
+            0% {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes fadeInUp {
+            0% {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes flicker {
+            0% {
+                filter: hue-rotate(190deg) brightness(1.5);
+            }
+            100% {
+                filter: hue-rotate(190deg) brightness(1.8);
+            }
+        }
+        
+        /* Duyarlı Tasarım */
+        @media (max-width: 992px) {
+            .about-content {
+                flex-direction: column;
+            }
+            
+            .hero-content h2 {
+                font-size: 2.8rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: block;
+                font-size: 24px;
+                color: var(--primary);
+            }
+            
+            nav.scrolled .menu-toggle {
+                color: white;
+            }
+            
+            .nav-links {
+                position: fixed;
+                top: 70px;
+                left: 0;
+                background-color: rgba(255, 255, 255, 0.95);
+                width: 100%;
+                flex-direction: column;
+                align-items: center;
+                padding: 20px 0;
+                clip-path: circle(0px at top right);
+                transition: all 0.4s ease;
+            }
+            
+            nav.scrolled .nav-links {
+                background-color: rgba(26, 26, 46, 0.95);
+            }
+            
+            .nav-links.active {
+                clip-path: circle(1000px at top right);
+            }
+            
+            .nav-links li {
+                margin: 15px 0;
+            }
+            
+            .hero-content h2 {
+                font-size: 2.2rem;
+            }
+            
+            .hero-content p {
+                font-size: 1rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav id="navbar">
+        <div class="container navbar">
+            <div class="logo">
+                <img src="/api/placeholder/40/40" alt="Entra Logo">
+                <h1>ENTRA</h1>
+            </div>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#anasayfa">Ana Sayfa</a></li>
+                <li><a href="#hakkimizda">Hakkımızda</a></li>
+                <li><a href="#hizmetler">Projelerimiz</a></li>
+                <li><a href="#takim">Takımımız</a></li>
+            </ul>
+            <div class="menu-toggle" id="menuToggle">
+                ☰
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Ana Sayfa -->
+    <header id="anasayfa">
+        <div class="hero-content">
+            <h2>Yazılımın Geleceğini <br>Biz Şekillendiriyoruz</h2>
+            <p>Yenikçi yazılım çözümleri geliştiriyor, teknoloji dünyasına ülkemiz gençleri olarak yeni bir sayfa açıyoruz. EntraCompany, yarının teknolojisini bugünden tasarlıyor.AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</p>
+            <a href="#hizmetler" class="btn">Projelerimizi Keşfedin</a>
+        </div>
+        <div class="fire"></div>
+    </header>
+    
+    <!-- Hakkımızda -->
+    <section id="hakkimizda">
+        <div class="container">
+            <h2 class="section-title">Hakkımızda</h2>
+            <div class="about-content">
+                <div class="about-image">
+                    <img src="/api/placeholder/600/400" alt="Entra Takımı">
+                </div>
+                <div class="about-text">
+                    <h3>Biz Kimiz?</h3>
+                    <p>aaaa</p>
+                    <p>bbbbb</p>
+                    <p>cccc</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Hizmetlerimiz -->
+    <section id="hizmetler">
+        <div class="container">
+            <h2 class="section-title">Projelerimiz</h2>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">
+                        <img src="/api/placeholder/50/50" alt="Mobil Uygulama">
+                    </div>
+                    <div class="service-content">
+                        <h3>Mobil Uygulama Geliştirme</h3>
+                        <p>Android ve iOS platformları için yazılım geliştiriyoruz.</p>
+                    </div>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">
+                        <img src="/api/placeholder/50/50" alt="Web Tasarım">
+                    </div>
+                    <div class="service-content">
+                        <h3>Web Geliştirme</h3>
+                        <p>UUUUUUUUUU</p>
+                    </div>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">
+                        <img src="/api/placeholder/50/50" alt="Oyun Geliştirme">
+                    </div>
+                    <div class="service-content">
+                        <h3>UUUUUUUUUUUUUUUUUUUUUUUHH</h3>
+                        <p>NIGA</p>
+                    </div>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">
+                        <img src="/api/placeholder/50/50" alt="HIYA">
+                    </div>
+                    <div class="service-content">
+                        <h3>Eğitim Yazılımları</h3>
+                        <p>EINEN</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Takımımız -->
+    <section id="takim">
+        <div class="container">
+            <h2 class="section-title">Takımımız</h2>
+            <div class="team-grid">
+                <div class="team-member">
+                    <div class="member-image">
+                        <img src="/api/placeholder/250/250" alt="Takım Üyesi 1">
+                    </div>
+                    <div class="member-info">
+                        <h3>A</h3>
+                        <p>B</p>
+                    </div>
+                </div>
+                
+                <div class="team-member">
+                    <div class="member-image">
+                        <img src="/api/placeholder/250/250" alt="Takım Üyesi 2">
+                    </div>
+                    <div class="member-info">
+                        <h3>a</h3>
+                        <p>b</p>
+                    </div>
+                </div>
+                
+                <div class="team-member">
+                    <div class="member-image">
+                        <img src="/api/placeholder/250/250" alt="Takım Üyesi 3">
+                    </div>
+                    <div class="member-info">
+                        <h3>B</h3>
+                        <p>O</p>
+                    </div>
+                </div>
+                
+                <div class="team-member">
+                    <div class="member-image">
+                        <img src="/api/placeholder/250/250" alt="Takım Üyesi 4">
+                    </div>
+                    <div class="member-info">
+                        <h3>E</h3>
+                        <p>V</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>Entra Company</h3>
+                    <p>Genç yazılımcılar olarak, geleceğin teknolojisini şekillendirmeye yönelik tutkumuzla yenilikçi çözümler üretiyoruz.</p>
+                    <p>© 2025 Entra Company. Tüm hakları saklıdır.</p>
+                </div>
+                <div class="footer-column">
+                    <h3>Hızlı Bağlantılar</h3>
+                    <ul class="footer-links">
+                        <li><a href="#anasayfa">Ana Sayfa</a></li>
+                        <li><a href="#hakkimizda">Hakkımızda</a></li>
+                        <li><a href="#hizmetler">Projelerimiz</a></li>
+                        <li><a href="#takim">Takımımız</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>İletişim</h3>
+                    <p>Teknoloji Lisesi, İnovasyon Caddesi No:42</p>
+                    <p>+90 555 123 4567</p>
+                    <p>info@entracompany.com</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2025 Entra Company. Tüm hakları saklıdır.</p>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+        
+        // Mobile menu toggle
+        document.getElementById('menuToggle').addEventListener('click', function() {
+            document.getElementById('navLinks').classList.toggle('active');
+        });
+        
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+                // Close mobile menu after click
+                document.getElementById('navLinks').classList.remove('active');
+            });
+        });
+    </script>
+</body>
+</html>
